@@ -1,0 +1,270 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design system — structure adapted from the "Beauté" editorial template
+  (giant marquee words, line-reveal headings, hairline dividers, square
+  outline / solid buttons, dark testimonial + contact blocks), re-skinned
+  with the Miracle Studio palette and a serif/sans pairing.
+*/
+
+@layer base {
+  :root {
+    --ivory: #f8f5ef;
+    --champagne: #c5a46d;
+    --sand: #e9ddc9;
+    --ocean: #a9c3c5;
+    --charcoal: #37332f;
+    --header-h: 76px;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  /* Native smooth scrolling only when Lenis is not running */
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ivory font-sans text-charcoal antialiased;
+    font-size: 16px;
+    line-height: 1.65;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  section[id] {
+    scroll-margin-top: calc(var(--header-h) - 1px);
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+    font-weight: 400;
+    /* Vietnamese capitals stack diacritics (Ẩ, Ế): keep room above each line */
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  /* No single-word last lines: balance short text, refine paragraphs */
+  h1, h2, h3, h4, h1 span, blockquote, figcaption, dt, li, label, button, a, .label, .text-balance {
+    text-wrap: balance;
+  }
+  p, dd {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--champagne);
+    color: var(--ivory);
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--champagne);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-4 sm:px-8 lg:px-12;
+  }
+
+  /* Letter-spaced uppercase label (template: .hero-paragraph) */
+  .label {
+    @apply font-sans text-[11px] font-medium uppercase tracking-label;
+  }
+
+
+  /* Big section title (template: .caps-title) */
+  /* Section titles: formal script (Great Vibes). Script fonts have tall
+     ascenders/descenders and stacked Vietnamese marks, so keep generous leading. */
+  .title-script {
+    @apply font-script font-normal not-italic tracking-normal;
+    line-height: 1.32;
+  }
+  .title-script em {
+    font-style: normal;
+  }
+  .title-xl {
+    @apply title-script text-[2.6rem] sm:text-[3.4rem] lg:text-[4.2rem];
+  }
+  .title-lg {
+    @apply title-script text-[2.4rem] sm:text-[3rem] lg:text-[3.6rem];
+  }
+
+  /* Buttons (template: .button + .styled-button) */
+  .btn {
+    @apply inline-flex items-center justify-center gap-3 border border-charcoal px-7 py-[15px] font-sans text-[12px] font-medium uppercase tracking-[0.22em] text-charcoal transition-colors duration-500;
+  }
+  .btn:hover {
+    @apply bg-charcoal text-ivory;
+  }
+  .btn-solid {
+    @apply btn bg-charcoal text-ivory;
+  }
+  .btn-solid:hover {
+    @apply bg-champagne-dark border-champagne-dark text-ivory;
+  }
+  .btn-light {
+    @apply btn border-ivory/80 text-ivory;
+  }
+  .btn-light:hover {
+    @apply bg-ivory text-charcoal;
+  }
+  .btn-gold {
+    @apply btn border-champagne bg-champagne text-charcoal-deep;
+  }
+  .btn-gold:hover {
+    @apply bg-ivory border-ivory text-charcoal;
+  }
+  .btn svg {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn:hover svg,
+  .btn-solid:hover svg,
+  .btn-light:hover svg,
+  .btn-gold:hover svg {
+    transform: translateX(4px);
+  }
+
+  .link-underline {
+    @apply relative inline-flex items-center gap-2 pb-1 font-sans text-[12px] font-medium uppercase tracking-[0.22em];
+  }
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-px w-full origin-left bg-current transition-transform duration-500;
+    transform: scaleX(0.35);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+  }
+
+  .hairline {
+    @apply h-px w-full bg-charcoal/15;
+  }
+
+  .skip-link {
+    @apply fixed left-4 top-4 z-[100] -translate-y-24 bg-charcoal px-4 py-2 text-sm text-ivory transition-transform;
+  }
+  .skip-link:focus {
+    @apply translate-y-0;
+  }
+
+  /* Image frame with hover zoom */
+  .zoom-frame {
+    @apply relative overflow-hidden bg-sand;
+  }
+  .zoom-frame img {
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .zoom-frame:hover img,
+  .group:hover .zoom-frame img {
+    transform: scale(1.045);
+  }
+
+  /* Form fields */
+  .field {
+    @apply w-full border-0 border-b border-ivory/25 bg-transparent px-0 py-3 font-sans text-[15px] text-ivory placeholder:text-ivory/40 transition-colors focus:border-champagne focus:outline-none focus:ring-0;
+  }
+  .field-label {
+    @apply label mb-1 block text-ivory/60;
+  }
+}
+
+/* Giant infinite marquee words (template: .infnite-text, ~330–470px) */
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-speed, 60s) linear infinite;
+}
+.marquee > span {
+  padding-right: 0.25em;
+  white-space: nowrap;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px currentColor;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Hero slow zoom */
+@keyframes slowZoom {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+.hero-zoom {
+  animation: slowZoom 9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee,
+  .hero-zoom {
+    animation: none !important;
+  }
+  .zoom-frame img {
+    transition: none;
+  }
+}
+
+/* ---------- k95-style motion layer ---------- */
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* SplitText line masks: leave room for stacked Vietnamese diacritics (Ẩ, Ỗ)
+   and descenders so the mask never crops them. */
+.split-line-mask {
+  padding: 0.38em 0.25em 0.38em;
+  margin: -0.38em -0.25em -0.38em;
+}
+.split-line {
+  will-change: transform;
+}
+
+/* Custom cursor: hide the native one except on form fields */
+html.has-cursor,
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor [role='tab'] {
+  cursor: none;
+}
+
+
+/* Contact halves: generous gutters that line up with the site container on wide screens */
+@media (min-width: 1024px) {
+  #contact .contact-left {
+    padding-left: max(4rem, calc((100vw - 1360px) / 2 + 3rem));
+    padding-right: 5rem;
+  }
+  #contact .contact-right {
+    padding-left: 5rem;
+    padding-right: max(4rem, calc((100vw - 1360px) / 2 + 3rem));
+  }
+}
