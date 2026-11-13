@@ -128,7 +128,11 @@ export default function Header() {
             transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 -z-0 flex flex-col bg-charcoal-deep pt-[96px] text-ivory xl:hidden"
           >
-            <nav aria-label="Điều hướng di động" className="container-site flex-1 overflow-y-auto">
+            <nav
+              aria-label="Điều hướng di động"
+              data-lenis-prevent
+              className="container-site min-h-0 flex-1 overflow-y-auto overscroll-contain [-webkit-overflow-scrolling:touch]"
+            >
               <ul className="border-t border-ivory/10">
                 {nav.map((item, i) => (
                   <motion.li
@@ -150,11 +154,15 @@ export default function Header() {
                 ))}
               </ul>
             </nav>
-            <div className="container-site flex flex-wrap items-center gap-4 py-8">
-              <a href="#contact" onClick={() => setOpen(false)} className="btn-gold">
+            <div className="container-site flex shrink-0 items-center gap-3 py-6">
+              <a
+                href="#contact"
+                onClick={() => setOpen(false)}
+                className="btn-gold flex-1 whitespace-nowrap px-3 tracking-[0.16em]"
+              >
                 Đặt lịch
               </a>
-              <a href={site.phoneHref} className="btn-light">
+              <a href={site.phoneHref} className="btn-light flex-1 gap-2 whitespace-nowrap px-3 tracking-[0.12em]">
                 <Phone size={14} strokeWidth={1.5} /> {site.phoneDisplay}
               </a>
             </div>
